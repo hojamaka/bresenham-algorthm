@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script>
+    //=======================================================
+    "use strict";
+    var CHIP_SIZE = 8;
+    var canvas;
+    var ctx;
+    window.onload = function() {
+      canvas = document.getElementById("canvas");
+      ctx = canvas.getContext("2d");
+      drawLine(10, 18, 425, 189);
+      drawLine(425, 189, 360, 532);
+      drawLine(360, 532, 93, 515);
+      drawLine(93, 515, 81, 187);
+      drawLine(81, 187, 524, 630);
+    }
+
+    var drawLine = function(x1, y1, x2, y2) {
+      var diffX = x2 - x1;
+      var diffY = y2 - y1;
+      if (Math.abs(diffX) > Math.abs(diffY)) {
+        var step = Math.round(diffX / CHIP_SIZE);
+        var delta = diffY / Math.abs(step);
+        for (var i = 0; i < Math.abs(step) + 1; i++) {
+          var xx = Math.floor(x1 / CHIP_SIZE) + i * (step / Math.abs(step));
+          var yy = Math.floor(y1 / CHIP_SIZE) + Math.round(i * delta / CHIP_SIZE);
+          drawBox(xx, yy);
+        }
+      } else {
+        var step = Math.round(diffY / CHIP_SIZE);
+        var delta = diffX / Math.abs(step);
+        for (var i = 0; i < Math.abs(step) + 1; i++) {
+          var yy = Math.floor(y1 / CHIP_SIZE) + i * (step / Math.abs(step));
+          var xx = Math.floor(x1 / CHIP_SIZE) + Math.round(i * delta / CHIP_SIZE);
+          drawBox(xx, yy);
+        }
+      }
+    }
+
+    var drawBox = function(x, y) {
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(x * CHIP_SIZE - CHIP_SIZE / 2, y * CHIP_SIZE - CHIP_SIZE / 2, CHIP_SIZE, CHIP_SIZE);
+    }
+    //=======================================================
+    </script>
+    <title>ブレゼンハムの線分描画アルゴリズム</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="640" height="640" style="background-color:#000"></canvas>
+  </body>
+</html>
